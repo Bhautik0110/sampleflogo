@@ -1,4 +1,4 @@
-module bhtk-flogo
+module github.com/Bhautik0110/sampleflogo
 
 go 1.19
 
