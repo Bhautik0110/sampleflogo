@@ -2,43 +2,29 @@ package sampleflogo
 
 import (
 	"github.com/project-flogo/core/activity"
-	"github.com/project-flogo/core/data/metadata"
 )
 
 func init() {
-	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
-}
-
-var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
-
-// New optional factory method, should be used if one activity instance per configuration is desired
-func New(ctx activity.InitContext) (activity.Activity, error) {
-
-	s := &Settings{}
-	err := metadata.MapToStruct(ctx.Settings(), s, true)
-	if err != nil {
-		return nil, err
-	}
-
-	ctx.Logger().Debugf("A value: %s", s)
-
-	act := &Activity{} //add aSetting to instance
-
-	return act, nil
+	_ = activity.Register(&SumActivity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
 }
 
 // Activity is an sample Activity that can be used as a base to create a custom activity
-type Activity struct {
+type SumActivity struct {
+	metadata *activity.Metadata
+}
+
+// NewActivity creates a new TwilioActivity
+func NewActivity(metadata *activity.Metadata) activity.Activity {
+	return &SumActivity{metadata: metadata}
 }
 
 // Metadata returns the activity's metadata
-func (a *Activity) Metadata() *activity.Metadata {
-	return activityMd
+func (a *SumActivity) Metadata() *activity.Metadata {
+	return activity.ToMetadata(&Settings{}, &Input{}, &Output{})
 }
 
 // Eval implements api.Activity.Eval - Logs the Message
-func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-
+func (a *SumActivity) Eval(ctx activity.Context) (done bool, err error) {
 	input := &Input{}
 	err = ctx.GetInputObject(input)
 	if err != nil {
