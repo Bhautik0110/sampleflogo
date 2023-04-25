@@ -3,37 +3,40 @@ package sampleflogo
 import "github.com/project-flogo/core/data/coerce"
 
 type Settings struct {
-	ASetting string `md:"aSetting,required"`
 }
 
 type Input struct {
-	AnInput string `md:"anInput,required"`
+	A int `md:"a,required"`
+	B int `md:"b,required"`
 }
 
 func (r *Input) FromMap(values map[string]interface{}) error {
-	strVal, _ := coerce.ToString(values["anInput"])
-	r.AnInput = strVal
+	a, _ := coerce.ToInt(values["a"])
+	b, _ := coerce.ToInt(values["b"])
+	r.A = a
+	r.B = b
 	return nil
 }
 
 func (r *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"anInput": r.AnInput,
+		"a": r.A,
+		"b": r.B,
 	}
 }
 
 type Output struct {
-	AnOutput string `md:"anOutput"`
+	Ans int `md:"ans"`
 }
 
 func (o *Output) FromMap(values map[string]interface{}) error {
-	strVal, _ := coerce.ToString(values["anOutput"])
-	o.AnOutput = strVal
+	ans, _ := coerce.ToInt(values["ans"])
+	o.Ans = ans
 	return nil
 }
 
 func (o *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"anOutput": o.AnOutput,
+		"ans": o.Ans,
 	}
 }

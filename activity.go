@@ -20,7 +20,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		return nil, err
 	}
 
-	ctx.Logger().Debugf("Setting: %s", s.ASetting)
+	ctx.Logger().Debugf("A value: %s", s)
 
 	act := &Activity{} //add aSetting to instance
 
@@ -45,9 +45,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, err
 	}
 
-	ctx.Logger().Debugf("Input: %s", input.AnInput)
+	ans := input.A + input.B
 
-	output := &Output{AnOutput: input.AnInput}
+	output := &Output{
+		Ans: ans,
+	}
 	err = ctx.SetOutputObject(output)
 	if err != nil {
 		return true, err
