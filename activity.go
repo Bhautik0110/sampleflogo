@@ -1,6 +1,8 @@
 package sampleflogo
 
 import (
+	"log"
+
 	"github.com/project-flogo/core/activity"
 )
 
@@ -31,7 +33,11 @@ func (a *SumActivity) Eval(ctx activity.Context) (done bool, err error) {
 		return true, err
 	}
 
+	log.Println("a:", input.A)
+	log.Println("b:", input.B)
+
 	ans := input.A + input.B
+	log.Println("ans:", ans)
 
 	output := &Output{
 		Ans: ans,
